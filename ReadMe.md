@@ -9,20 +9,20 @@ Quick access:
 
 ## Objective
 
-Given a dataset including houses, we're asked to train a model that can predict the amount of energy consumed by a house. I solve this problem using Regression and Regularization, while I explain the thought process, challenges, and strategies.
+Given a dataset, we're asked to predict appliances energy consumption by a house in a ten minute priod while we're given weather details, by using a proper regression model.
 
 This readme file explains the theory behind every step I make, while you can find more information on how I implement the ideas by reading the notes in the notebooks.
 
 - Dataset: [Appliances Energy Prediction Dataset from Kaggle](https://www.kaggle.com/datasets/loveall/appliances-energy-prediction)
-- Libraries Used: Numpy, Matplotlib, Pandas
+- Libraries Used: Numpy, Matplotlib, Pandas, Scikit-learn
 
 ## How to Run
 
 ## Quick Look on The Dataset
+Dataset includes information in 10 minute periods. In each row, humidty, temperature, and other quantities of the house are given for that ten minute period, plus information from a nearby weather station. Tempreture, humidity and other details of the outside evnironment is measured twice, one by the house sensors and one by the weather station.
 
-Each row represents a house, for each we have humidty rate and temperature of different parts of the house and the outside environment. For every house, there are columns representing data gathered from a nearby weather station, which again tells us the humidity and temperature of the outside environment, with other information such as wind speed, pressure, etc. we're also provided with two random variables.
+We're also provided with two random variables.
 
-We're asked to estimate the amount of consumed energy by light fixtures in each house.
 
 ## First Approach
 Because all values are continuous, a regression model could be used. We will have a lot of weights, which reduces model interpretiblity and can lead to overfitting. Hence, we use L1 or L2 regularization, to prevent overfitting and keep the model explainable while making accurate predictions. This will be our cost function:
