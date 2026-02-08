@@ -47,6 +47,13 @@ Our data is noisy, it seems to have a lot of irrelevant features, however with a
 
 As I mentioned, there are two columns of random variables that are irrelevant to our target variable(I'll use them later for model validation). Before training the model, Let's make sure they really have no relation with the target variable:
 
+<img src="visuals\correlation_heatmap_rv1_appliance.png" alt="correlation heatmap between rv1 and target variable" style="float: left; margin-right: 20px; margin-bottom: 20px; max-height: 350px;">
+<img src="visuals\correlation_heatmap_rv2_appliance.png" alt="correlation heatmap between rv2 and target variable" style="margin-bottom: 20px; max-height: 350px;">
+
+As we can see in the correlation matrices, magnitudes of numbers assigned to correlation between target and v1, or target and v2, are very low ~0.01. We can conclude that there is no relation between random variables and the target, they're totally irrelavent to the target.
+
+
+
 ## Comparing Models Performance
 
 ### Models Performance Table
