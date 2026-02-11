@@ -38,6 +38,7 @@ Here's the training timeline:
 2. Train two models on the same training set, ridge regularization and lasso regularization.
 3. Find the best λ for each model.
 4. Compare the models to choose the better one.
+5. Repeat the process above for polynomial regression and compare it to the current linear regression model
 
 A proper regularization must determine which weights are more important and which are less important(features irrelevant to our target) so they end up with zero or close to zero value. Hence, rv1 and rv2 (random variables in the data set) should be nearly zero or excatly zero, in a good regularization, otherwise the model is hallucinating, seeing patterns and relations that doesn't exist.
 
