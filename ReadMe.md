@@ -104,7 +104,7 @@ We train different models using different options explained above with different
 
 We split the dataset into Train 80% and Test 20%. When training the model with regularization, K-Fold cross-validation is used to compare different values for $\lambda$, which splits training subset into K subsets, each one used once as the validation set.
 
-Feature scaling is done using scikit-learn pipeline, this ensures scaling happens after each K-Fold subset creation, preventing data leakage. Each time the pipeline divides our training into a validation set and a new training subset, the scaling is only done on the new training subset so validation happens on validation set without data leakage.
+Feature scaling is done using scikit-learn pipeline, this ensures scaling happens after each K-Fold subset creation, preventing data leakage. Each time the pipeline divides our training into a validation set and a new training subset, the mean and std is calculated using the new training subset, preventing data leakage.
 
 ## Comparing Models Performance
 
