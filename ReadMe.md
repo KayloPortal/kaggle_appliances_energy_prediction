@@ -96,11 +96,15 @@ However, it has a downside, it adds a lot of columns to our data, this is why so
 
 For every $x$ polynomial regression adds $x^2$, $x^3$, . . . depending on the degree and also the combination of terms such as $x \times y$ etc. (sckit-learn PolynomialFeatures) by adding columns for hours we have around 50 columns, in polynomial with degree two, we have 1,500 features and for degree three we have +25,000 features which is higher than the number of rows and leads us to overfitting.
 
-But there's a solution to that. The 24 columns added from One-Hot encoding doesn't need to be powered, because $x^n = x$ for these columns. And because two hours never happen at the same time, $x \times y$ is always zero when both terms are from these columns. Hence they don't need to be multiplied by themselves. These reduce a lot of new features. We can be selective when creating new polynomial terms and reduce the number of features. I'm not sure if combination of hour columns with other columns is important or not, so I train a model with them and without them to observe the difference in performance.
+But there's a solution to that. The 24 columns added from One-Hot encoding don't need to be powered, because $x^n = x$ for these columns. And because two hours never happen at the same time, $x \times y$ is always zero when both terms are from these columns. Hence they don't need to be multiplied by themselves. These reduce a lot of new features. We can be selective when creating new polynomial terms and reduce the number of features. I'm not sure if combination of hour columns with other columns is important or not, so I train a model with them and without them to observe the difference in performance.
+
+We train different models using different options explained above with different methods to create polynomial terms, then we compare the performance to find the best model. Weekdays also need to be encoded with on of the three options above.
 
 ### Train, Test, Validation
 
 We split the dataset into Train 80% and Test 20%. When training the model with regularization, K-Fold cross-validation is used to compare different values for $\lambda$, which splits training subset into K subsets, each one used once as the validation set.
+
+Feature scaling is done using scikit-learn pipeline, this ensures scaling happens after each K-Fold subset creation, preventing data leakage. Each time the pipeline divides our training into a validation set and a new training subset, the scaling is only done on the new training subset so validation happens on validation set without data leakage.
 
 ## Comparing Models Performance
 
