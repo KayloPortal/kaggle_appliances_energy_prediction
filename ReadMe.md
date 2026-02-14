@@ -96,13 +96,13 @@ However, it has a downside, it adds a lot of columns to our data, this is why so
 
 For every $x$ polynomial regression adds $x^2$, $x^3$, . . . depending on the degree and also the combination of terms such as $x \times y$ etc. (sckit-learn PolynomialFeatures) by adding columns for hours we have around 50 columns, in polynomial with degree two, we have 1,500 features and for degree three we have +25,000 features which is higher than the number of rows and leads us to overfitting.
 
-But there's a solution to that. The 24 columns added from One-Hot encoding don't need to be powered, because $x^n = x$ for these columns. And because two hours never happen at the same time, $x \times y$ is always zero when both terms are from these columns. Hence they don't need to be multiplied by themselves. These reduce a lot of new features. We can be selective when creating new polynomial terms, any term in which sum of powers of OHE columns is larger than one is always zero, representing no information, hence it will be removed to keep the feature space small.
+But there's a solution to that. The 24 columns added from One-Hot encoding don't need to be powered, because $x^n = x$ for these columns. And because two hours never happen at the same time, $x \times y$ is always zero when both terms are from these columns. Hence they don't need to be multiplied by themselves. These reduce a lot of new features. We can be selective when creating new polynomial terms, any term in which sum of powers of OHE columns(that come from the same encoding) is larger than one is always zero, representing no information, hence it will be removed to keep the feature space small.
 
 We train different models using different encoding options explained above and compare their performance to find the best model. Weekdays will also be encoded using the options above.
 
 ### Train, Test, Validation
 
-We split the dataset into Train 80% and Test 20%. When training the model with regularization, K-Fold cross-validation is used to compare different values for $\lambda$, which splits training subset into K subsets, each one used once as the validation set.
+We split the dataset into Train 80% and Test 20%. When training the model with regularization, K-Fold cross-validation is used to compare different values for $\lambda$, which splits training subset into K subsets, each one used once as the validation set. After the best $\lambda$ is found, we retrain the model on the whole training set to get the final weights.
 
 Feature scaling is done using scikit-learn pipeline, this ensures scaling happens after each K-Fold subset creation, preventing data leakage. Each time the pipeline divides our training into a validation set and a new training subset, the mean and std is calculated using the new training subset, preventing data leakage.
 
