@@ -88,11 +88,11 @@ In One-Hot Encoding, we add 24 columns, each one for one hour of the day, if we'
 
 However, it has a downside, it adds a lot of columns to our data, this is why sometimes people use Categorical Encoding(they add four columns for morning, afternoon, evening and night instead) or continue with Sin/Cos. However, because we have more than 20000 rows, even by adding 24 more columns we're in a safe zone for linear regression, what causes problem is polynomial regression.
 
-| Method | One-Hot | Categorical | Sin/Cos |
+| Method | One-Hot Encoding | Categorical (Ordinal) | Sin/Cos (Cyclical) |
 | :--- | :--- | :--- | :--- |
-| **Efficient** | Depends | Mostly | Mostly |
-| **Flexible** | Very much | Good | Intermediate |
-| **Cost** | Heavy | Low | Very low |
+| **Dimensionality ($P$)** | High | Low | Very Low |
+| **Interpretability** | High (Clear weight per hour) | Intermediate | Intermediate |
+| **Convergence Speed** | Slow(due to high $P$) | Fast | Fast |
 
 For every $x$ polynomial regression adds $x^2$, $x^3$, . . . depending on the degree and also the combination of terms such as $x \times y$ etc. (sckit-learn PolynomialFeatures) by adding columns for hours we have around 50 columns, in polynomial with degree two, we have 1,500 features and for degree three we have +25,000 features which is higher than the number of rows and leads us to overfitting.
 
