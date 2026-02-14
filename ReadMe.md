@@ -67,7 +67,7 @@ To fix this, we have three good options:
 
 - Using Sin/Cos to put hours on a circle (adds 2 columns)
 - One-Hot encoding (adds 24 columns)
-- Categorical encoding (adds 4 columns)
+- Binned One-Hot encoding (adds 4 columns)
 
 #### Using Sin/Cos
 
@@ -82,13 +82,13 @@ This way, the model thinks of every hour as a dot on the unit circle, where `hou
 
 This method doesn't add many columns hence it's efficient, but it only creates wave patterns, which wouldn't be able to catch some of the ups and downs and sudden jumps that could happen in a daily timeline. For instance, energy consumption might be constant from 3PM to 7PM but it may suddenly jump for thirty minutes, becuase someone has started using the oven for cooking, then the consumption would decrease to where it was. It's hard for a wave-like function constructed with Sin and Cos to catch such a jump, though not impossible.
 
-#### One-Hot Encoding & Categorical Encoding
+#### One-Hot Encoding & Binned One-Hot Encoding
 
 In One-Hot Encoding, we add 24 columns, each one for one hour of the day, if we're in that hour, its value will be one and other columns will be zero. The model learns to assign a weight for each hour seperately, showing the impact that single hour has on our target. This method is very effective in regression. Because it looks at each hour seperately, it can easily adupt to sudden jumps, and if given enough data, it's so flexible and can easily determine the impact of each hour on our target variable percisely. It's also so interpertable, after the model is learned we can see how energy consumption changes for every hour and find the peak hours.
 
-However, it has a downside, it adds a lot of columns to our data, this is why sometimes people use Categorical Encoding(they add four columns for morning, afternoon, evening and night instead) or continue with Sin/Cos. However, because we have more than 20000 rows, even by adding 24 more columns we're in a safe zone for linear regression, what causes problem is polynomial regression.
+However, it has a downside, it adds a lot of columns to our data, this is why sometimes people use Binned One-Hot Encoding(they add four columns for morning, afternoon, evening and night instead) or continue with Sin/Cos. However, because we have more than 20000 rows, even by adding 24 more columns we're in a safe zone for linear regression, what causes problem is polynomial regression.
 
-| Method | One-Hot Encoding | Categorical (Ordinal) | Sin/Cos (Cyclical) |
+| Method | One-Hot Encoding | Binned One-Hot | Sin/Cos (Cyclical) |
 | :--- | :--- | :--- | :--- |
 | **Dimensionality ($P$)** | High | Low | Very Low |
 | **Interpretability** | High (Clear weight per hour) | Intermediate | Intermediate |
