@@ -102,7 +102,7 @@ We train different models using different encoding options explained above and c
 
 ### Train, Test, Validation
 
-We split the dataset into Train 80% and Test 20%. When training the model with regularization, K-Fold cross-validation is used to compare different values for $\lambda$, which splits training subset into K subsets, each one used once as the validation set. After the best $\lambda$ is found, we retrain the model on the whole training set to get the final weights.
+We split the dataset into Train 80% and Test 20%. When training the model with Lasso regularization, K-Fold cross-validation is used to compare different values for $\lambda$, which splits training subset into K subsets, each one used once as the validation set. After the best $\lambda$ is found, we retrain the model on the whole training set to get the final weights. For Ridge regularization on the other hand, LOOCV(Leave-One-Out Cross Validation) is utilized using scikit-learn's RidgeCV to find the best $\lambda$. It's significantly faster and very accurate when the data doesn't have a lot of outliers. Again, the model is retrained on the whole data after the best $\lambda\$ is found.
 
 Feature scaling is done using scikit-learn pipeline, this ensures scaling happens after each K-Fold subset creation, preventing data leakage. Each time the pipeline divides our training into a validation set and a new training subset, the mean and std is calculated using the new training subset, preventing data leakage.
 
