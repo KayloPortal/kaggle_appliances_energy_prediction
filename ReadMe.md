@@ -109,9 +109,27 @@ Feature scaling is done using scikit-learn pipeline, this ensures scaling happen
 
 ## Training Models, Analyzing & Choosing The Best
 
-**Attention:** What you see here is very dense summerization of what I did in `experiment.ipynb` file. For every passage I right below, I leave a reference to this file(e.g. section 3.3, etc.), By going to that reference you can find strong brief explanations, evidences, and more details for that claim.
+### Attention!
 
-A lot of details that were discussed in `experiment.ipynb` aren't talked about here, to keep the ReadMe.md small. Hence to learn more, you can go to the experiment notebook file `experiment.ipynb`.
+What you see here is very dense summerization of what I did in `experiment.ipynb` file. For every passage I right below, I leave a reference to this file(e.g. section 3.3, etc.), By going to that reference you can find strong brief explanations, evidences, proofs and more details for that claim.
+
+A lot of details that were discussed in `experiment.ipynb` aren't talked here, to keep the ReadMe.md small. Hence to learn more, you can go to the experiment notebook file `experiment.ipynb`. In fact you can abandon the ReadMe.md from here and read `experiment.ipynb` instead if you want to see all the topics and details. Otherwise for a very summarized version, continue reading this ReadMe.md
 
 ### Degree One Models
 
+#### Choosing encoding
+
+Four models were trained, same regularization but different encoding(table.1). All the models were underfitting, Ratios were almost the same, hence the model with one-hot encoding for both hour & week was chosen due to better RMSE & $R^2$ ratio(section 3.2.1).
+
+| Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Test MAE | rv1 | rv2 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | ohe | ohe | lasso | 0.235 | 0.232 | 90.19 | 87.68 | 0.972 | 50.88 | 0.258 | 0.000 |
+| 1 | ohe | trig | lasso | 0.232 | 0.228 | 90.37 | 87.92 | 0.973 | 50.85 | 0.271 | 0.000 |
+| 1 | trig | ohe | lasso | 0.203 | 0.205 | 92.08 | 89.19 | 0.969 | 51.68 | -0.013 | -0.000 |
+| 1 | trig | trig | lasso | 0.200 | 0.201 | 92.26 | 89.40 | 0.969 | 51.62 | -0.001 | -0.000 |
+
+#### Choosing Regularization
+
+Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensivity of ridge to change of $\lambda" is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table2.), and due to noise and uncontrolable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197.(If obscure, go to section 3.3.2 for a detailed explanation defending this claim)
+
+Becuase regularization didn't bring any value, we chose to continue with a normal regression without regulariztion, but with one-hot encoding for both hour and week.
