@@ -18,10 +18,12 @@ This readme file explains the theory behind every step I make, while you can fin
 
 ## How to Run
 
-## Quick Look on The Dataset
+## Dataset Overview
 Dataset includes information in 10 minute periods. In each row, humidty, temperature, and other quantities of the house are given for that ten minute period, plus information from a nearby weather station. Tempreture, humidity and other details of the outside evnironment is measured twice, one by the house sensors and one by the weather station.
 
-We're also provided with two random variables.
+To see detailed information about the dataset, [visit here](https://www.kaggle.com/datasets/loveall/appliances-energy-prediction).
+
+We're also provided with two random variables, and the mean of the target variable is 97.69 Wh, calculated in `data_inspect.ipynb`
 
 ## First Approach
 
@@ -157,4 +159,3 @@ Becuase regularization didn't bring any value, we chose to continue with a norma
 An image summary on why $\lambda$ became zero, explaining bias-variance tradeoff and regularization together.
 
 <img src="visuals/diagram-bias-variance-tradeoff.png" alt="Bias-Variance tradeoff for our linear model with regularization">
-
