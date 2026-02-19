@@ -128,8 +128,33 @@ Four models were trained, same regularization but different encoding(table.1). A
 | 1 | trig | ohe | lasso | 0.203 | 0.205 | 92.08 | 89.19 | 0.969 | 51.68 | -0.013 | -0.000 |
 | 1 | trig | trig | lasso | 0.200 | 0.201 | 92.26 | 89.40 | 0.969 | 51.62 | -0.001 | -0.000 |
 
+*Table-1: rv1 is the weight assigned to rv1 by the model, also rv2. Reg is short for regularization method, deg stands for model's degree. Hour represents encoding method used for hour column, ohe is one-hot, trig is cyclical/trigonometric, same goes for Week.
+
 #### Choosing Regularization
 
-Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensivity of ridge to change of $\lambda" is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table2.), and due to noise and uncontrolable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197.(If obscure, go to section 3.3.2 for a detailed explanation defending this claim)
+Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below - image.1). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensivity of ridge to change of $\lambda" is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table3.), and due to noise and uncontrolable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197(If obscure, go to section 3.3.2 for a detailed explanation defending this claim).
 
 Becuase regularization didn't bring any value, we chose to continue with a normal regression without regulariztion, but with one-hot encoding for both hour and week.
+
+| Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Best $\lambda$ | rv1 | rv2 | CrossVal |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | ohe | ohe | lasso | 0.235 | 0.232 | 90.19 | 87.68 | 0.972 | 0.0197 | 0.258 | 0.000 | 5 Folds |
+| 1 | ohe | ohe | ridge | 0.235 | 0.232 | 90.19 | 87.68 | 0.972 | 11.4976 | 0.139 | 0.139 | LOOCV |
+| 1 | ohe | ohe | ridge | 0.235 | 0.232 | 90.19 | 87.68 | 0.972 | 11.4976 | 0.139 | 0.139 | 5 Folds |
+| 1 | ohe | ohe | regressor | 0.235 | 0.232 | 90.19 | 87.69 | 0.972 | - | 0.142 | 0.142 | - |
+
+*Table-2 CrossVal stands for Cross-Validation method. By 'regressor' in Reg column we mean regression without any regularization.
+
+| Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Fixed $\lambda$ | rv1 | rv2 | CrossVal |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | ohe | ohe | ridge | 0.235 | 0.232 | 90.19 | 87.69 | 0.972 | 0.0197 | 0.142 | 0.142 | 5 Folds |
+| 1 | ohe | ohe | ridge | 0.235 | 0.232 | 90.19 | 87.68 | 0.972 | 11.4976 | 0.139 | 0.139 | 5 Folds |
+| 1 | ohe | ohe | lasso | 0.235 | 0.232 | 90.19 | 87.68 | 0.972 | 0.0197 | 0.258 | 0.000 | 5 Folds |
+| 1 | ohe | ohe | lasso | 0.056 | 0.060 | 100.22 | 97.01 | 0.968 | 11.4976 | -0.000 | -0.000 | 5 Folds |
+
+*Table-3
+
+An image summary on why $\lambda$ became zero, explaining bias-variance tradeoff and regularization together.
+
+<img src="visuals/diagram-bias-variance-tradeoff.png" alt="Bias-Variance tradeoff for our linear model with regularization">
+
