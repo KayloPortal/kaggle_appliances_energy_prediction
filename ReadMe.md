@@ -48,8 +48,8 @@ Our data is noisy, it seems to have a lot of irrelevant features, however with a
 
 As I mentioned, there are two columns of random variables that are irrelevant to our target variable(I'll use them later for model validation). Before training the model, Let's make sure they really have no relation with the target variable:
 
-<img src="visuals/correlation_heatmap_rv1_appliance.png" height=350 alt="correlation heatmap between rv1 and target variable" style="margin-right: 20px; margin-bottom: 20px;">
-<img src="visuals/correlation_heatmap_rv2_appliance.png" height=350 alt="correlation heatmap between rv2 and target variable" style="margin-bottom: 20px;">
+<img src="visuals/correlation_heatmap_rv1_appliance.png" height=330 alt="correlation heatmap between rv1 and target variable" style="margin-right: 20px; margin-bottom: 20px;">
+<img src="visuals/correlation_heatmap_rv2_appliance.png" height=330 alt="correlation heatmap between rv2 and target variable" style="margin-bottom: 20px;">
 
 As we can see in the correlation matrices, magnitudes of numbers assigned to correlation between target and v1, or target and v2, are very low ~0.01. We can conclude that there is no relation between random variables and the target, they're totally irrelavent to the target.
 
@@ -106,6 +106,11 @@ We split the dataset into Train 80% and Test 20%. When training the model with L
 
 Feature scaling is done using scikit-learn pipeline, this ensures scaling happens after each K-Fold subset creation, preventing data leakage. Each time the pipeline divides our training into a validation set and a new training subset, the mean and std is calculated using the new training subset, preventing data leakage.
 
-## Comparing Models Performance
+## Training Models, Analyzing & Choosing The Best
 
-### Models Performance Table
+**Attention:** What you see here is very dense summerization of what I did in `experiment.ipynb` file. For every passage I right below, I leave a reference to this file(e.g. section 3.3, etc.), By going to that reference you can find strong brief explanations, evidences, and more details for that claim.
+
+A lot of details that were discussed in `experiment.ipynb` aren't talked about here, to keep the ReadMe.md small. Hence to learn more, you can go to the experiment notebook file `experiment.ipynb`.
+
+### Degree One Models
+
