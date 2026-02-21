@@ -11,7 +11,7 @@ Quick access:
 
 Given a dataset, we're asked to predict appliances energy consumption by a house in a ten minute priod while we're given weather details, by using a proper regression model.
 
-This readme file explains the theory behind every step I make, while you can find more information on how I implement the ideas by reading the notes in the notebooks.
+This ReadMe.md file explains the theory behind every step I make, while you can find more information on how I implement the ideas by reading the notes in the notebooks.
 
 - Dataset: [Appliances Energy Prediction Dataset from Kaggle](https://www.kaggle.com/datasets/loveall/appliances-energy-prediction)
 - Libraries Used: Numpy, Matplotlib, Pandas, Scikit-learn, Seaborn
@@ -27,7 +27,7 @@ We're also provided with two random variables, and the mean of the target variab
 
 ## First Approach
 
-Because all values are continuous, a regression model could be used. We will have a lot of weights, which reduces model interpretiblity and can lead to overfitting. Hence, we use L1 or L2 regularization, to prevent overfitting and keep the model explainable while making accurate predictions. This will be our cost function:
+Because all values are continuous, a regression model could be used. We will have a lot of weights, which reduces model interpretability and can lead to overfitting. Hence, we use L1 or L2 regularization, to prevent overfitting and keep the model explainable while making accurate predictions. This will be our cost function:
 
 $J_{λ}(w) = J(w) + λR(w)$
 
@@ -83,7 +83,7 @@ To see what it does, imagine the unit circle $x^2 + y^2 = 1$ where for every dot
 
 This way, the model thinks of every hour as a dot on the unit circle, where `hour_sin` and `hour_cos` show its exact coordinates. It tries to combine these triangular functions to create a wave-like function that shows the relation between 'hour of day' and 'energy consumed'.
 
-This method doesn't add many columns hence it's efficient, but it only creates wave patterns, which wouldn't be able to catch some of the ups and downs and sudden jumps that could happen in a daily timeline. For instance, energy consumption might be constant from 3PM to 7PM but it may suddenly jump for thirty minutes, becuase someone has started using the oven for cooking, then the consumption would decrease to where it was. It's hard for a wave-like function constructed with Sin and Cos to catch such a jump, though not impossible.
+This method doesn't add many columns hence it's efficient, but it only creates wave patterns, which wouldn't be able to catch some of the ups and downs and sudden jumps that could happen in a daily timeline. For instance, energy consumption might be constant from 3PM to 7PM but it may suddenly jump for thirty minutes, because someone has started using the oven for cooking, then the consumption would decrease to where it was. It's hard for a wave-like function constructed with Sin and Cos to catch such a jump, though not impossible.
 
 #### One-Hot Encoding & Binned One-Hot Encoding
 
@@ -113,7 +113,7 @@ Feature scaling is done using scikit-learn pipeline, this ensures scaling happen
 
 ### Attention!
 
-What you see here is very dense summerization of what I did in `experiment.ipynb` file. For every passage I right below, I leave a reference to this file(e.g. section 3.3, etc.), By going to that reference you can find strong brief explanations, evidences, proofs and more details for that claim.
+What you see here is condensed summary. of what I did in `experiment.ipynb` file. For every passage I write below, I leave a reference to this file(e.g. section 3.3, etc.), By going to that reference you can find strong brief explanations, evidences, proofs and more details for that claim.
 
 A lot of details that were discussed in `experiment.ipynb` aren't talked here, to keep the ReadMe.md small. Hence to learn more, you can go to the experiment notebook file `experiment.ipynb`. In fact you can abandon the ReadMe.md from here and read `experiment.ipynb` instead if you want to see all the topics and details. Otherwise for a very summarized version, continue reading this ReadMe.md
 
@@ -136,7 +136,7 @@ Four models were trained, same regularization but different encoding(table.1). A
 
 Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below - image.1). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensivity of ridge to change of $\lambda" is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table3.), and due to noise and uncontrolable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197(If obscure, go to section 3.3.2 for a detailed explanation defending this claim).
 
-Becuase regularization didn't bring any value, we chose to continue with a normal regression without regulariztion, but with one-hot encoding for both hour and week.
+Because regularization didn't bring any value, we chose to continue with a normal regression without regulariztion, but with one-hot encoding for both hour and week.
 
 Also, one more simple supporting experiment were done in section 3.3.4 to validate the claims.
 
