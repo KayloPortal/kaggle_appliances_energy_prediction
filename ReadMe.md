@@ -100,9 +100,9 @@ Feature scaling is done using a scikit-learn pipeline, this ensures scaling happ
 
 ### Attention!
 
-What you see here is condensed summary. of what I did in `experiment.ipynb` file. For every passage I write below, I leave a reference to this file(e.g. section 3.3, etc.), By going to that reference you can find strong brief explanations, evidences, proofs and more details for that claim.
+What you see here is a condensed summary. of what I did in `experiment.ipynb` file. For every passage I write below, I leave a reference to this file(e.g., section 3.3, etc.). By going to that reference, you can find strong, brief explanations, evidence, proofs, and more details for that claim.
 
-A lot of details that were discussed in `experiment.ipynb` aren't talked here, to keep the ReadMe.md small. Hence to learn more, you can go to the experiment notebook file `experiment.ipynb`. In fact you can abandon the ReadMe.md from here and read `experiment.ipynb` instead if you want to see all the topics and details. Otherwise for a very summarized version, continue reading this ReadMe.md
+Many details discussed in `experiment.ipynb` aren't covered here to keep the ReadMe.md short. Hence, to learn more, you can go to the experiment notebook `experiment.ipynb`. In fact, you can abandon the ReadMe.md from here and read `experiment.ipynb` instead if you want to see all the topics and details. Otherwise, for a very summarized version, continue reading this ReadMe.md
 
 ### Degree One Models
 
@@ -121,11 +121,11 @@ Four models were trained, same regularization but different encoding(table.1). A
 
 #### Choosing Regularization
 
-Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below - image.1). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensivity of ridge to change of $\lambda$ is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table3.), and due to noise and uncontrolable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197(If obscure, go to section 3.3.2 for a detailed explanation defending this claim).
+Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below - image.1). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensitivity of ridge to change of $\lambda$ is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table3.), and due to noise and uncontrollable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197(If obscure, go to section 3.3.2 for a detailed explanation defending this claim).
 
-Because regularization didn't bring any value, we chose to continue with a normal regression without regulariztion, but with one-hot encoding for both hour and week.
+Because regularization didn't bring any value, we chose to continue with a normal regression without regularization, but with one-hot encoding for both hour and week.
 
-Also, one more simple supporting experiment were done in section 3.3.4 to validate the claims.
+Also, one more simple supporting experiment was done in section 3.3.4 to validate the claims.
 
 | Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Best $\lambda$ | rv1 | rv2 | CrossVal |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -153,15 +153,15 @@ An image summary on why $\lambda$ became zero, explaining bias-variance tradeoff
 
 Because the previous models could not explain our data properly due to low variance, we increase the complexity by implementing degree two polynomial features, also utilizing the OHE filtering we discussed earlier in this ReadMe.md
 
-**When training lasso models with 5-Fold cross-validation using scikit-learn's LassoCV, I got a convergence-warning, hence I tuned LassoCV to ensure convergence happens, how I tuned lasso is briefly explained in section 3.4.2 with mathematical details.**
+**When training lasso models with 5-Fold cross-validation using scikit-learn's LassoCV, I got a convergence warning, hence I tuned LassoCV to ensure convergence happens, how I tuned LassoCV is briefly explained in section 3.4.2 with mathematical details.**
 
 #### Lasso Models
 
-RMSE Ratios are almost identical, but $R^2$ ratios differ remarkably. Due to better Ratio models with trig encoding are more stable, but less accurate due to higher RMSE and lower $R^2$. While the ohe+ohe model has less stability, it still stable enough $R^2_{test}/R^2_{train} = 0.85$. **Therefore we choose the ohe+ohe model for its better performance(RMSE & $R^2$) over the test set.**
+RMSE Ratios are almost identical, but $R^2$ ratios differ remarkably. Due to better Ratio models with trig encoding are more stable, but less accurate due to higher RMSE and lower $R^2$. While the ohe+ohe model has less stability, it is still stable enough $R^2_{test}/R^2_{train} = 0.85$. **Therefore we choose the ohe+ohe model for its better performance(RMSE & $R^2$) over the test set.**
 
-By looking at the training time, we can see the theory we discussed earlier in the ReadMe; OHE models converge slower due to higher number of columns they create.
+By looking at the training time, we can see the theory we discussed earlier in the ReadMe; OHE models converge more slowly due to the higher number of columns they create.
 
-All models are underfitting, Train RMSE & Test RMSE are almost indentical(close to one RMSE ratio, very stable) but both are very high compared to the mean of the target. This underfitting is the reason why $\lambda$ is very close to zero(see image.1 or read section 3.3.1). All models have also successfully handled the random noise; again, confirming the model is not overfitting.
+All models are underfitting, Train RMSE & Test RMSE are almost identical(close to one RMSE ratio, very stable) but both are very high compared to the mean of the target. This underfitting is the reason why $\lambda$ is very close to zero(see image.1 or read section 3.3.1). All models have also successfully handled the random noise; again, confirming the model is not overfitting.
 
 | Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Ratio($R^2$) | best $\lambda$ | rv1 | rv2 | CrossVal | Training Time |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -174,11 +174,11 @@ All models are underfitting, Train RMSE & Test RMSE are almost indentical(close 
 
 #### Ridge Models
 
-By replacing trigonometric encoding with one-hot encoding, Test $R^2$ stays the same hence model's ability to explain the test set does not change, but the Train $R^2$ increases. This increase means the model is learning more, because it can explain more of the training set, but what it is learning is noise, not pattern, therefore the model can explain the training data better but its ability to explain unseen data remains the same. we can see the same pattern for RMSE. In another words, replacing trig encoding with one-hot pushes the model towards overfitting(learning noise). The lower $R^2$ ratio in ridge+ohe models confirms this fact.
+By replacing trigonometric encoding with one-hot encoding, Test $R^2$ stays the same, hence the model's ability to explain the test set does not change, but the Train $R^2$ increases. This increase means the model is learning more, because it can explain more of the training set, but what it is learning is noise, not pattern, therefore the model can explain the training data better but its ability to explain unseen data remains the same. We can see the same pattern for RMSE. In other words, replacing trig encoding with one-hot pushes the model towards overfitting(learning noise). The lower $R^2$ ratio in ridge+ohe models confirms this fact.
 
-In short, all models have almost the same performance on the test set but the **fourth model**(trig+trig+ridge) has better generalization and is more stable, due to its better ratios. hence **it's the best ridge model out of this list**. It's also more efficient due to less amount of features it creates.
+In short, all models have almost the same performance on the test set, but the **fourth model**(trig+trig+ridge) has better generalization and is more stable, due to its better ratios. hence **it's the best ridge model out of this list**. It's also more efficient due to fewer features it creates.
 
-The weights chosen for random variables also acknowledge the claim. while all models successfully determined these variables are irrelevant to our target hence minimized their weights, the trig+trig model has gave them weights that are four times less than the weights in ohe+ohe. This means that ohe+ohe model is more hallucinating compared to the fourth model, confirming the overfitting claim.
+The weights chosen for random variables also acknowledge the claim. While all models successfully determined that these variables are irrelevant to our target, hence minimized their weights, the trig+trig model has given them weights that are four times less than the weights in ohe+ohe. This means that ohe+ohe model is more hallucinating compared to the fourth model, confirming the overfitting claim.
 
 | Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Ratio($R^2$) | best $\lambda$ | rv1 | rv2 | CrossVal |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -191,7 +191,7 @@ The weights chosen for random variables also acknowledge the claim. while all mo
 
 ### Degree Three And Higher
 
-Based on calculations done in section 3.5 with the formula below, higher degrees involve a high number of features, in our 20,000 rows dataset we reach an $N/P$ ratio less than 10 which will probably lead us into overfitting. Hence, we stop increasing the degree of our regression models here at this point.
+Based on calculations done in section 3.5 with the formula below, higher degrees involve a high number of features. In our 20,000 rows dataset, we reach an $N/P$ ratio less than 10, which will probably lead us into overfitting. Hence, we stop increasing the degree of our regression models here at this point.
 
 The number of features after applying a degree $d$ polynomial features on a dataset with $P$ columns is
 
@@ -208,11 +208,11 @@ $$\binom{P + d}{d} = \frac{(P + d)!}{P! d!}$$
 
 ### The Best Model
 
-Out of 16 models we selected three models we believed are the best among the models with the same regularization type as themselves.
+Out of 16 models, we selected three that we believed were the best within their regularization type.
 
-Lasso model is slightly better in $RMSE$ & $R^2$ compared to the ridge model but is almost the same in other metrics and is 30 times slower to converge. This leaves us with ridge and degree one model(regressor) that has no regularization. Both have good ratios while regreesors's ratios are better, signaling more stability. Because we aim for a balance in accuracy and stability and ridge is more accurate due to its better $RMSE$ & $R^2$ and also has identified the noise better and gave the random variables less weights, **the ridge model is the final winner**.
+The Lasso model is slightly better in $RMSE$ & $R^2$ compared to the ridge model, but is almost the same in other metrics, and is 30 times slower to converge. This leaves us with ridge and degree one model(regressor) that has no regularization. Both have good ratios while regreesor's ratios are better, signaling more stability. Because we aim for a balance in accuracy and stability, and the ridge is more accurate due to its better $RMSE$ & $R^2$, and also has identified the noise better and given the random variables less weights, **the ridge model is the final winner**.
 
-The degree one regression model might be nearly perfect in ratios, but it's remarkably less accurate. Ridge ratios aren't perfect but good enough.
+The degree one regression model might be nearly perfect in ratios, but it's remarkably less accurate. Ridge ratios aren't perfect, but good enough.
 
 | Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Ratio($R^2$) | Best $\lambda$ | rv1 | rv2 | CrossVal | Training Time |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -224,21 +224,21 @@ The degree one regression model might be nearly perfect in ratios, but it's rema
 
 ### Why Are All The Models Innaccurate?
 
-All the models we have trained so far, despite all the improvments, are underfitting. This can be seen by looking at RMSE. All models have a high RMSE on train and test compared to the mean of the target variable. But why? we did regularizations, encodings, why didn't we reach a practical model we can use in real world? The reason to this is **noise**.
+All the models we have trained so far, despite all the improvements, are underfitting. This can be seen by looking at RMSE. All models have a high RMSE on train and test compared to the mean of the target variable. But why? We did regularizations and encodings, why didn't we reach a practical model we can use in the real world? The reason for this is **noise**.
 
-The target variable we're predicting depends on many factors that do not exist in the given dataset. This is where we say *our data is noisy*. Energy consumption is effected by a lot of sudden and random spikes called noise. Someone might decide to turn on conditioner for thirty minutes in 3AM 12 July because he woke up due to nightmare, and this incident never happened again. These spikes are very hard to explain by mathematic relations or formulas like regression. These spikes happen in every dataset, that is why we always have errors in regression models, But the amount of these spikes in this dataset is much more compared to others, that is why we say this data is noisy(This claim is supported by the plots and diagrams in the next part of ReadMe.md).
+The target variable we're predicting depends on many factors that do not exist in the given dataset. This is where we say *our data is noisy*. Energy consumption is affected by a lot of sudden and random spikes called noise. Someone might decide to turn on the conditioner for thirty minutes at 3 AM on 12 July because he woke up due to a nightmare, and this incident never happened again. These spikes are very hard to explain by mathematical relations or formulas like regression. These spikes happen in every dataset, which is why we always have errors in regression models, But the amount of these spikes in this dataset is much higher compared to others, which is why we say this data is noisy(This claim is supported by the plots and diagrams in the next part of ReadMe.md).
 
-Another way to identify this noise is to look for the different target values we have when the values of our dependent variables are almost the same. This means our target is effected by some other variable that is not listed in our dataset.
+Another way to identify this noise is to look for the different target values we have when the values of our dependent variables are almost the same. This means our target is affected by some other variable that is not listed in our dataset.
 
-We didn't find a unicorn perfect model for sure, but we can analyze, plot and explain the current models to discover new information and prove the claims we made earlier.
+We didn't find a perfect model, but we can analyze, plot, and explain the current models to uncover new insights and support the claims we made earlier.
 
 ## Deeper Dive: Proving The Claims and Explaining The Model Using Graphs
 
-I plotted multiple graphs for the best final model(ridge model with trigonometric/cyclic encoding) in `experiment.ipynb`. These graphs can give us a better understanding of what we talked earlier; besides providing more information.
+I plotted multiple graphs for the best final model(ridge model with trigonometric/cyclic encoding) in `experiment.ipynb`. These graphs can give us a better understanding of what we talked about earlier, besides providing more information.
 
 ### Residuals vs. Predicted Values Graph
 
-This graph is plotted and analyzed briefly in `experiment.ipynb` section 4.2.1. It proves the calims about random noise we talked earlier along with information about the model's behavior and learning.
+This graph is plotted and analyzed briefly in `experiment.ipynb` section 4.2.1. It proves the claims about random noise we talked about earlier, along with information about the model's behavior and learning.
 
 ### Prediction vs. Actual Values Graph
 
