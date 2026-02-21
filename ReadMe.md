@@ -121,7 +121,7 @@ A lot of details that were discussed in `experiment.ipynb` aren't talked here, t
 
 #### Choosing encoding
 
-Four models were trained, same regularization but different encoding(table.1). All the models were underfitting, Ratios were almost the same, hence the model with one-hot encoding for both hour & week was chosen due to better RMSE & $R^2$ ratio(section 3.2.1).
+Four models were trained, same regularization but different encoding(table.1). All the models were underfitting(High MAE compared to average value for target). Ratios were almost the same, hence the model with one-hot encoding for both hour & week was chosen due to better RMSE & $R^2$ ratio(section 3.2.1).
 
 | Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Test MAE | rv1 | rv2 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -137,6 +137,8 @@ Four models were trained, same regularization but different encoding(table.1). A
 Because the models were underfitting, regularization had no serious effect(table.2), this is because of Regularization Paradox which I explained briefly in section 3.3.1. This paradox says that in underfitting models, the best value for $\lambda$ is zero(see the diagram image below - image.1). Hence we expect ridge $\lambda$ to be close to zero but it isn't, this is not because our claim is false; the real reason is that the sensivity of ridge to change of $\lambda" is much less than lasso, hence 11.4976 and 0.0197 have very little difference in affecting the model(table3.), and due to noise and uncontrolable bias that might happen in different parts of our process such as K-Fold validation, the model might not be able to see the difference between these two values in performance, and will think that 11.4976 is a better value than a number very close to zero such as 0.0197(If obscure, go to section 3.3.2 for a detailed explanation defending this claim).
 
 Becuase regularization didn't bring any value, we chose to continue with a normal regression without regulariztion, but with one-hot encoding for both hour and week.
+
+Also, one more simple supporting experiment were done in section 3.3.4 to validate the claims.
 
 | Deg | Hour | Week | Reg | Train R² | Test R² | Train RMSE | Test RMSE | Ratio (Test/Train RMSE) | Best $\lambda$ | rv1 | rv2 | CrossVal |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -164,11 +166,11 @@ An image summary on why $\lambda$ became zero, explaining bias-variance tradeoff
 
 Because the previous models could not explain our data properly due to low variance, we increase the complexity by implementing degree two polynomial features, also utilizing the OHE filtering we discussed earlier in this ReadMe.md
 
-When training lasso models with 5-Fold cross-validation using scikit-learn's LassoCV, I got a convergence-warning, hence I tuned LassoCV to ensure convergence happens, how I tuned lasso is briefly explained in section 3.4.2 with mathematical details.
+**When training lasso models with 5-Fold cross-validation using scikit-learn's LassoCV, I got a convergence-warning, hence I tuned LassoCV to ensure convergence happens, how I tuned lasso is briefly explained in section 3.4.2 with mathematical details.**
 
 #### Lasso Models
 
-RMSE Ratios are almost identical, but $R^2$ ratios differ remarkably. Due to better Ratio models with trig encoding are more stable, but less accurate due to higher RMSE and lower $R^2$. While the ohe+ohe model has less stability, it still stable enough $R^2_{test}/R^2_{train} = 0.85$. Therefore we choose the ohe+ohe model for its better performance(RMSE & $R^2$) over the test set.
+RMSE Ratios are almost identical, but $R^2$ ratios differ remarkably. Due to better Ratio models with trig encoding are more stable, but less accurate due to higher RMSE and lower $R^2$. While the ohe+ohe model has less stability, it still stable enough $R^2_{test}/R^2_{train} = 0.85$. **Therefore we choose the ohe+ohe model for its better performance(RMSE & $R^2$) over the test set.**
 
 By looking at the training time, we can see the theory we discussed earlier in the ReadMe; OHE models converge slower due to higher number of columns they create.
 
@@ -187,7 +189,7 @@ All models are underfitting, Train RMSE & Test RMSE are almost indentical(close 
 
 By replacing trigonometric encoding with one-hot encoding, Test $R^2$ stays the same hence model's ability to explain the test set does not change, but the Train $R^2$ increases. This increase means the model is learning more, because it can explain more of the training set, but what it is learning is noise, not pattern, therefore the model can explain the training data better but its ability to explain unseen data remains the same. we can see the same pattern for RMSE. In another words, replacing trig encoding with one-hot pushes the model towards overfitting(learning noise). The lower $R^2$ ratio in ridge+ohe models confirms this fact.
 
-In short, all models have almost the same performance on the test set but the fourth model(trig+trig+ridge) has better generalization and is more stable, due to its better ratios. hence it's the best ridge model out of this list. It's also more efficient due to less amount of features it creates.
+In short, all models have almost the same performance on the test set but the **fourth model**(trig+trig+ridge) has better generalization and is more stable, due to its better ratios. hence **it's the best ridge model out of this list**. It's also more efficient due to less amount of features it creates.
 
 The weights chosen for random variables also acknowledge the claim. while all models successfully determined these variables are irrelevant to our target hence minimized their weights, the trig+trig model has gave them weights that are four times less than the weights in ohe+ohe. This means that ohe+ohe model is more hallucinating compared to the fourth model, confirming the overfitting claim.
 
@@ -221,7 +223,7 @@ $$\binom{P + d}{d} = \frac{(P + d)!}{P! d!}$$
 
 Out of 16 models we selected three models we believed are the best among the models with the same regularization type as themselves.
 
-Lasso models is slightly better in $RMSE$ & $R^2$ compared to the ridge model but is almost the same in other metrics and is 30 times slower to converge. This leaves us with ridge and degree one model(regressor) that has no regularization. Both have good ratios while regreesors's ratios are better, signaling more stability. Because we aim for a balance in accuracy and stability and ridge is more accurate due to its better $RMSE$ & $R^2$ and also has identified the noise better and gave the random variables less weights, **the ridge model is the final winner**.
+Lasso model is slightly better in $RMSE$ & $R^2$ compared to the ridge model but is almost the same in other metrics and is 30 times slower to converge. This leaves us with ridge and degree one model(regressor) that has no regularization. Both have good ratios while regreesors's ratios are better, signaling more stability. Because we aim for a balance in accuracy and stability and ridge is more accurate due to its better $RMSE$ & $R^2$ and also has identified the noise better and gave the random variables less weights, **the ridge model is the final winner**.
 
 The degree one regression model might be nearly perfect in ratios, but it's remarkably less accurate. Ridge ratios aren't perfect but good enough.
 
