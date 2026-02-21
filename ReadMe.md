@@ -1,24 +1,20 @@
 # Appliances Energy Prediction
 
-Quick access:
-- [Objective](#objective)
-- [How to run](#how-to-run)
-- [Quick Look on The Dataset](#quick-look-on-the-dataset)
-- [Comparing Models Performance](#model-performance-comparison)
-  - [Models Performance Table](#models-performance-table)
-
 ## Objective
 
 Given a dataset, we're asked to predict appliances energy consumption by a house in a ten minute priod while we're given weather details, by using a proper regression model.
 
-This ReadMe.md file explains the theory behind every step I make, while you can find more information on how I implement the ideas by reading the notes in the notebooks.
-
 - Dataset: [Appliances Energy Prediction Dataset from Kaggle](https://www.kaggle.com/datasets/loveall/appliances-energy-prediction)
 - Libraries Used: Numpy, Matplotlib, Pandas, Scikit-learn, Seaborn
+
+##  Abstract
+
+If you don't want to read all the text and have no time, here are is a summary of key findings including refrences to help you be selective about the topics.
 
 ## How to Run
 
 ## Dataset Overview
+
 Dataset includes information in 10 minute periods. In each row, humidty, temperature, and other quantities of the house are given for that ten minute period, plus information from a nearby weather station. Tempreture, humidity and other details of the outside evnironment is measured twice, one by the house sensors and one by the weather station.
 
 To see detailed information about the dataset, [visit here](https://www.kaggle.com/datasets/loveall/appliances-energy-prediction).
